@@ -1,5 +1,5 @@
 h1{
-    text-align: center;
+    text-align: left;
 color: dimgrey;
 
 
@@ -10,4 +10,7 @@ body{
 
 
     
+}
+li{
+    color: honeydew;
 }
