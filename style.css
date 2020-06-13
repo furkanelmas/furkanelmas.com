@@ -1,13 +1,15 @@
 h1{
     text-align: center;
-color: black
+color: yellow;
+font-family: 'Courier New', Courier, monospace;
+font-size: large;
 
 
 
 }
 body{
     background-color: black;
-    background-image: url(images/f5.jpg);
+    background-image: url();
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: 100% 100%;
