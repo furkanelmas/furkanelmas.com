@@ -1,56 +1,78 @@
-/*!
-    * Start Bootstrap - Agency v6.0.2 (https://startbootstrap.com/template-overviews/agency)
-    * Copyright 2013-2020 Start Bootstrap
-    * Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-agency/blob/master/LICENSE)
-    */
-    (function ($) {
-    "use strict"; // Start of use strict
+/* Description: Custom JS file */
 
-    // Smooth scrolling using jQuery easing
-    $('a.js-scroll-trigger[href*="#"]:not([href="#"])').click(function () {
-        if (
-            location.pathname.replace(/^\//, "") ==
-                this.pathname.replace(/^\//, "") &&
-            location.hostname == this.hostname
-        ) {
-            var target = $(this.hash);
-            target = target.length
-                ? target
-                : $("[name=" + this.hash.slice(1) + "]");
-            if (target.length) {
-                $("html, body").animate(
-                    {
-                        scrollTop: target.offset().top - 72,
-                    },
-                    1000,
-                    "easeInOutExpo"
-                );
-                return false;
-            }
-        }
+
+(function($) {
+    "use strict"; 
+	
+    /* Navbar Scripts */
+    // jQuery to collapse the navbar on scroll
+    $(window).on('scroll load', function() {
+		if ($(".navbar").offset().top > 60) {
+			$(".fixed-top").addClass("top-nav-collapse");
+		} else {
+			$(".fixed-top").removeClass("top-nav-collapse");
+		}
+    });
+    
+	// jQuery for page scrolling feature - requires jQuery Easing plugin
+	$(function() {
+		$(document).on('click', 'a.page-scroll', function(event) {
+			var $anchor = $(this);
+			$('html, body').stop().animate({
+				scrollTop: $($anchor.attr('href')).offset().top
+			}, 600, 'easeInOutExpo');
+			event.preventDefault();
+		});
     });
 
-    // Closes responsive menu when a scroll trigger link is clicked
-    $(".js-scroll-trigger").click(function () {
-        $(".navbar-collapse").collapse("hide");
-    });
+    // offcanvas script from Bootstrap + added element to close menu on click in small viewport
+    $('[data-toggle="offcanvas"], .navbar-nav li a:not(.dropdown-toggle').on('click', function () {
+        $('.offcanvas-collapse').toggleClass('open')
+    })
 
-    // Activate scrollspy to add active class to navbar items on scroll
-    $("body").scrollspy({
-        target: "#mainNav",
-        offset: 74,
-    });
+    // hover in desktop mode
+    function toggleDropdown (e) {
+        const _d = $(e.target).closest('.dropdown'),
+            _m = $('.dropdown-menu', _d);
+        setTimeout(function(){
+            const shouldOpen = e.type !== 'click' && _d.is(':hover');
+            _m.toggleClass('show', shouldOpen);
+            _d.toggleClass('show', shouldOpen);
+            $('[data-toggle="dropdown"]', _d).attr('aria-expanded', shouldOpen);
+        }, e.type === 'mouseleave' ? 300 : 0);
+    }
+    $('body')
+    .on('mouseenter mouseleave','.dropdown',toggleDropdown)
+    .on('click', '.dropdown-menu a', toggleDropdown);
 
-    // Collapse Navbar
-    var navbarCollapse = function () {
-        if ($("#mainNav").offset().top > 100) {
-            $("#mainNav").addClass("navbar-shrink");
+
+    /* Move Form Fields Label When User Types */
+    // for input and textarea fields
+    $("input, textarea").keyup(function(){
+		if ($(this).val() != '') {
+			$(this).addClass('notEmpty');
+		} else {
+			$(this).removeClass('notEmpty');
+		}
+	});
+	
+
+    /* Back To Top Button */
+    // create the back to top button
+    $('body').prepend('<a href="body" class="back-to-top page-scroll">Back to Top</a>');
+    var amountScrolled = 700;
+    $(window).scroll(function() {
+        if ($(window).scrollTop() > amountScrolled) {
+            $('a.back-to-top').fadeIn('500');
         } else {
-            $("#mainNav").removeClass("navbar-shrink");
+            $('a.back-to-top').fadeOut('500');
         }
-    };
-    // Collapse now if page is not at top
-    navbarCollapse();
-    // Collapse the navbar when page is scrolled
-    $(window).scroll(navbarCollapse);
-})(jQuery); // End of use strict
+    });
+
+
+	/* Removes Long Focus On Buttons */
+	$(".button, a, button").mouseup(function() {
+		$(this).blur();
+	});
+
+})(jQuery);
